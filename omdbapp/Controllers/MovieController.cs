@@ -1,5 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
+using PhoenyxStudio.Omdb;
+using System.Threading.Tasks;
+
 namespace omdbapp.Controllers
 {
     public class MovieController : Controller
@@ -9,8 +12,14 @@ namespace omdbapp.Controllers
             return RedirectToAction("Search", "Movie");
         }
 
-        public IActionResult Search()
+        async public Task<IActionResult> Search()
         {
+            var client = new Client();
+
+            var response = await client.QueryAsync();
+
+            ViewData["response"] = response;
+
             return View();
         }
 

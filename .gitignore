@@ -2,5 +2,6 @@
 omdbapp/obj/
 omdbapp/bin/
 PhoenyxStudio.Omdb/obj/
+PhoenyxStudio.Omdb/bin/
 appsettings.Development.json
 appsettings.Production.json

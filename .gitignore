@@ -1,0 +1,6 @@
+.vscode/
+omdbapp/obj/
+omdbapp/bin/
+PhoenyxStudio.Omdb/obj/
+appsettings.Development.json
+appsettings.Production.json

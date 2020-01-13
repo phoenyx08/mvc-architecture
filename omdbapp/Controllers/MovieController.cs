@@ -7,6 +7,11 @@ namespace omdbapp.Controllers
 {
     public class MovieController : Controller
     {
+        private Client _client;
+
+        public MovieController(Client client) {
+            _client = client;
+        }
         public IActionResult Index()
         {
             return RedirectToAction("Search", "Movie");
@@ -14,9 +19,9 @@ namespace omdbapp.Controllers
 
         async public Task<IActionResult> Search()
         {
-            var client = new Client();
+            //var client = new Client();
 
-            var response = await client.QueryAsync();
+            var response = await _client.QueryAsync();
 
             ViewData["response"] = response;
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PhoenyxStudio.Omdb;
 
 namespace omdbapp
 {
@@ -24,6 +25,9 @@ namespace omdbapp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddOmdbClient(options 
+                => options.ApiKey = Configuration.GetValue<string>("OmdbApiKey")
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

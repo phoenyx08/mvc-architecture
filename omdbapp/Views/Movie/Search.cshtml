@@ -1,8 +1,41 @@
+@model omdbapp.Models.SearchModel;
 @{
     ViewData["Title"] = "Search a movie in the OMDb";
 }
 <h1>@ViewData["Title"]</h1>
+<form asp-action="Search" asp-controller="Movie">
+    <label asp-for="SearchQuery"></label>
+    <input asp-for="SearchQuery" placeholder="Enter your query"></label>
+    <input type="submit" value="Search">
+</form>
+@if(Model.SearchResult==null)
+{
+    <p>Results will go here</p>
 
-<p>Placeholder for the search page</p>
-<p>Result:</p>
-@ViewData["response"]
+}
+else
+{
+    <p>Result:</p>
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.SearchResult.First().Title)</th>
+            <th>@Html.DisplayNameFor(model => model.SearchResult.First().Year)</th>
+            <th>@Html.DisplayNameFor(model => model.SearchResult.First().imdbID)</th>
+            <th>@Html.DisplayNameFor(model => model.SearchResult.First().Type)</th>
+            <th>@Html.DisplayNameFor(model => model.SearchResult.First().Poster)</th>
+        </tr>
+        @foreach(var movie in Model.SearchResult)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Year</td>
+                <td>@movie.imdbID</td>
+                <td>@movie.Type</td>
+                <td><img src="@movie.Poster"></td>
+            </tr>
+
+        }
+
+    </table>
+    
+}

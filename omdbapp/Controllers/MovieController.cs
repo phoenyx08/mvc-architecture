@@ -2,6 +2,8 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using PhoenyxStudio.Omdb;
 using System.Threading.Tasks;
+using omdbapp.Models;
+using System.Text.Json;
 
 namespace omdbapp.Controllers
 {
@@ -17,15 +19,21 @@ namespace omdbapp.Controllers
             return RedirectToAction("Search", "Movie");
         }
 
-        async public Task<IActionResult> Search()
+        [HttpGet]
+        public IActionResult Search()
         {
-            //var client = new Client();
+            return View(new SearchModel());
+        }
 
-            var response = await _client.QueryAsync();
+        [HttpPost, ValidateAntiForgeryToken]
+        async public Task<IActionResult>Search([Bind("SearchQuery")] SearchModel model)
+        {
+            var response = await _client.SearchAsync(model.SearchQuery);
+            OmdbSearchResult searchResultObject = JsonSerializer.Deserialize<OmdbSearchResult>(response);
 
-            ViewData["response"] = response;
-
-            return View();
+            model.SearchResult = searchResultObject.Search;
+            
+            return View(model);
         }
 
         public IActionResult Details(int? id)

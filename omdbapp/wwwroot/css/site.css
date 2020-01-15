@@ -69,3 +69,26 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+/* Custom styling */
+.rating-items-list {
+  list-style-type: none;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-left: 0;
+}
+.rating-item-source {
+  font-weight: bold;
+}
+.navbar {
+  padding-top: 0;
+  padding-bottom:0;
+}
+.result-label {
+  opacity: 0.3;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem
+}
+.poster-preview {
+  width: 50%;
+}

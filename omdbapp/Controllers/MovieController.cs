@@ -36,19 +36,26 @@ namespace omdbapp.Controllers
             return View(model);
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(string imdbId)
         {
-            if (id == null)
+            if (imdbId == null)
             {
                 return RedirectToAction("Search", "Movie");            
             }
 
-            if (id == 3) // @todo: change condition here to not found index
+            var response = await _client.QueryByImdbIdAsync(imdbId);
+
+            MovieDetailsModel movieDetails = JsonSerializer.Deserialize<MovieDetailsModel>(response);
+
+
+            ViewData["result"] = response;
+
+            if (imdbId == "3") // @todo: change condition here to not found index
             {
                 return RedirectToAction("MovieNotFound", "Movie");
             }
 
-            return View();
+            return View(movieDetails);
         }
 
         public IActionResult MovieNotFound()

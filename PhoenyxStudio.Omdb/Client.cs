@@ -40,5 +40,28 @@ namespace PhoenyxStudio.Omdb
 
             return response;
         }
+
+        async public Task<string>QueryByImdbIdAsync(string imdbId)
+        {
+            string response;
+
+            var builder = new UriBuilder("http://www.omdbapi.com");
+            
+            builder.Port = -1;
+            var query = HttpUtility.ParseQueryString(builder.Query);
+            query["apikey"] = _apiKey;
+            query["i"] = imdbId;
+            query["plot"] = "full";
+            builder.Query = query.ToString();
+            string url = builder.ToString();
+            
+            using (var client = new HttpClient())
+            {
+                response = await client.GetStringAsync(url);
+            }
+
+            return response;
+
+        }
     }
 }

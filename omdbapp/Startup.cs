@@ -53,8 +53,12 @@ namespace omdbapp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "MovieSearch",
+                    pattern: "{controller=Movie}/{action=Details}/{imdbId}");
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                
             });
         }
     }

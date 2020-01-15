@@ -4,38 +4,43 @@
 }
 <h1>@ViewData["Title"]</h1>
 <form asp-action="Search" asp-controller="Movie">
-    <label asp-for="SearchQuery"></label>
     <input asp-for="SearchQuery" placeholder="Enter your query"></label>
     <input type="submit" value="Search">
 </form>
 @if(Model.SearchResult==null)
 {
-    <p>Results will go here</p>
+    <p class="result-label">Results will go here</p>
 
 }
 else
 {
-    <p>Result:</p>
+    <p class="result-label">Result:</p>
     <table class="table">
         <tr>
+            <th>@Html.DisplayNameFor(model => model.SearchResult.First().Poster)</th>
             <th>@Html.DisplayNameFor(model => model.SearchResult.First().Title)</th>
             <th>@Html.DisplayNameFor(model => model.SearchResult.First().Year)</th>
             <th>@Html.DisplayNameFor(model => model.SearchResult.First().imdbID)</th>
             <th>@Html.DisplayNameFor(model => model.SearchResult.First().Type)</th>
-            <th>@Html.DisplayNameFor(model => model.SearchResult.First().Poster)</th>
         </tr>
         @foreach(var movie in Model.SearchResult)
         {
             <tr>
-                <td>@movie.Title</td>
+                <td><img class="poster-preview" src="@movie.Poster"></td>
+                <td><a asp-action="Details" asp-route-imdbId="@movie.imdbID">@movie.Title</a></td>
                 <td>@movie.Year</td>
                 <td>@movie.imdbID</td>
                 <td>@movie.Type</td>
-                <td><img src="@movie.Poster"></td>
             </tr>
 
         }
 
     </table>
-    
+    <ul class="pagination">
+        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
 }

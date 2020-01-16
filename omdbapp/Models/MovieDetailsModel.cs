@@ -5,6 +5,7 @@ namespace omdbapp.Models
 {
     public class MovieDetailsModel
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Year { get; set; }
         public string Rated { get; set; }
@@ -19,7 +20,7 @@ namespace omdbapp.Models
         public string Country { get; set; }
         public string Awards { get; set; }
         public string Poster { get; set; }
-        public List<RatingItem> Ratings { get; set; }
+        public ICollection<RatingItem> Ratings { get; set; }
         public string Metascore { get; set; }
         public string imdbRating { get; set; }
         public string imdbVotes { get; set; }

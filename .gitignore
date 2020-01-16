@@ -5,4 +5,5 @@ PhoenyxStudio.Omdb/obj/
 PhoenyxStudio.Omdb/bin/
 appsettings.Development.json
 appsettings.Production.json
+omdbapp/app.db
 PhoenyxStudio.Omdb/obj/project.assets.json

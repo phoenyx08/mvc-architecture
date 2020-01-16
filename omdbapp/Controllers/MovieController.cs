@@ -1,18 +1,23 @@
 using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using PhoenyxStudio.Omdb;
 using System.Threading.Tasks;
 using omdbapp.Models;
 using System.Text.Json;
+using omdbapp.Data;
 
 namespace omdbapp.Controllers
 {
     public class MovieController : Controller
     {
         private Client _client;
+        private readonly ApplicationDbContext _context;
 
-        public MovieController(Client client) {
+        public MovieController(Client client, ApplicationDbContext context) {
             _client = client;
+            _context = context;
         }
         public IActionResult Index()
         {
@@ -26,13 +31,11 @@ namespace omdbapp.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        async public Task<IActionResult>Search([Bind("SearchQuery")] SearchModel model)
+        async public Task<IActionResult> Search([Bind("SearchQuery")] SearchModel model)
         {
-            var response = await _client.SearchAsync(model.SearchQuery);
+            string response = await _client.SearchAsync(model.SearchQuery);
             OmdbSearchResult searchResultObject = JsonSerializer.Deserialize<OmdbSearchResult>(response);
-
             model.SearchResult = searchResultObject.Search;
-            
             return View(model);
         }
 
@@ -43,19 +46,26 @@ namespace omdbapp.Controllers
                 return RedirectToAction("Search", "Movie");            
             }
 
-            var response = await _client.QueryByImdbIdAsync(imdbId);
+            MovieDetailsModel movie = _context
+                .MovieDetailsModels
+                .Where(movie => movie.imdbID == imdbId)
+                .Include(movie => movie.Ratings)
+                .FirstOrDefault();
 
-            MovieDetailsModel movieDetails = JsonSerializer.Deserialize<MovieDetailsModel>(response);
+            if (movie == null) {
+                string response = await _client.QueryByImdbIdAsync(imdbId);
+                movie = JsonSerializer.Deserialize<MovieDetailsModel>(response);
 
+                if (movie.Response == "False")
+                {
+                    return RedirectToAction("MovieNotFound", "Movie");
+                }
 
-            ViewData["result"] = response;
-
-            if (imdbId == "3") // @todo: change condition here to not found index
-            {
-                return RedirectToAction("MovieNotFound", "Movie");
+                await _context.AddAsync(movie);
+                await _context.SaveChangesAsync();
             }
-
-            return View(movieDetails);
+            
+            return View(movie);
         }
 
         public IActionResult MovieNotFound()

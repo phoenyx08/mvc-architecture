@@ -41,6 +41,28 @@ namespace PhoenyxStudio.Omdb
             return response;
         }
 
+        async public Task<string> SearchAsync(string searchQuery, string page)
+        {
+            string response;
+
+            var builder = new UriBuilder("http://www.omdbapi.com");
+            
+            builder.Port = -1;
+            var query = HttpUtility.ParseQueryString(builder.Query);
+            query["apikey"] = _apiKey;
+            query["s"] = searchQuery;
+            query["page"] = page;
+            builder.Query = query.ToString();
+            string url = builder.ToString();
+            
+            using (var client = new HttpClient())
+            {
+                response = await client.GetStringAsync(url);
+            }
+
+            return response;
+        }
+
         async public Task<string>QueryByImdbIdAsync(string imdbId)
         {
             string response;

@@ -10,5 +10,6 @@ namespace omdbapp.Models
         [Display(Name="Search query string")]
         public string SearchQuery { get; set; }
         public List<Movie> SearchResult { get; set; }
+        public string Totals { get; set; }
     }
 }

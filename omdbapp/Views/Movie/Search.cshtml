@@ -10,10 +10,19 @@
 @if(Model.SearchResult==null)
 {
     <p class="result-label">Results will go here</p>
-
 }
 else
 {
+    @section Scripts {
+        <script language="javascript">
+            var state = {
+                currentPage: 1,
+                searchString: "@Model.SearchQuery",
+                totalFound: "@Model.Totals"
+            }
+        </script>
+        <script src="/js/paginator.js"></script>
+    }
     <p class="result-label">Result:</p>
     <table class="table">
         <tr>
@@ -23,8 +32,12 @@ else
             <th>@Html.DisplayNameFor(model => model.SearchResult.First().imdbID)</th>
             <th>@Html.DisplayNameFor(model => model.SearchResult.First().Type)</th>
         </tr>
+        <tbody class="search-result-table-body">
         @foreach(var movie in Model.SearchResult)
         {
+            if (movie.Poster == "N/A") {
+                movie.Poster = "/img/not-available.png";
+            }
             <tr>
                 <td><img class="poster-preview" src="@movie.Poster"></td>
                 <td><a asp-action="Details" asp-route-imdbId="@movie.imdbID">@movie.Title</a></td>
@@ -34,13 +47,15 @@ else
             </tr>
 
         }
+        </tbody>
 
     </table>
+    <div id="paginator-output"></div>
     <ul class="pagination">
-        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        <li class="page-item disabled"><span id="pager-previous" class="page-link">Previous</span></li>
+        <li class="page-item active"><span id="pager-one" class="page-link">1</span></li>
+        <li class="page-item"><span id="pager-two" class="page-link">2</span></li>
+        <li class="page-item"><span id="pager-three" class="page-link">3</span></li>
+        <li class="page-item"><span id="pager-next" class="page-link">Next</span></li>
     </ul>
 }

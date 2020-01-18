@@ -90,5 +90,8 @@ body {
   margin-bottom: 0.5rem
 }
 .poster-preview {
-  width: 50%;
+  width: 25%;
+}
+.pagination, .pagination li {
+  cursor: default;
 }

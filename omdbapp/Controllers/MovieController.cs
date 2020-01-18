@@ -24,6 +24,15 @@ namespace omdbapp.Controllers
             return RedirectToAction("Search", "Movie");
         }
 
+        [Route("Movie/Ajax/Search")]
+        [HttpPost]
+        async public Task<object> AjaxSearchAsync(string searchQuery, string page)
+        {
+            string response = await _client.SearchAsync(searchQuery, page);
+            OmdbSearchResult searchResultObject = JsonSerializer.Deserialize<OmdbSearchResult>(response);
+            return new {result = searchResultObject};
+        }
+
         [HttpGet]
         public IActionResult Search()
         {
@@ -36,6 +45,7 @@ namespace omdbapp.Controllers
             string response = await _client.SearchAsync(model.SearchQuery);
             OmdbSearchResult searchResultObject = JsonSerializer.Deserialize<OmdbSearchResult>(response);
             model.SearchResult = searchResultObject.Search;
+            model.Totals = searchResultObject.totalResults;
             return View(model);
         }
 

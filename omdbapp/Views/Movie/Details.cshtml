@@ -2,6 +2,9 @@
 @{
     ViewData["Title"] = "Movie details";
 }
+@if(Model.Poster == "N/A"){
+  Model.Poster = "/img/not-available.png";
+}
 <h1>@Model.Title</h1>
 
 <div class="container-fluid">

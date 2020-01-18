@@ -42,8 +42,22 @@ namespace omdbapp.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         async public Task<IActionResult> Search([Bind("SearchQuery")] SearchModel model)
         {
-            string response = await _client.SearchAsync(model.SearchQuery);
+            string response;
+            
+            try 
+            {
+                response = await _client.SearchAsync(model.SearchQuery);
+            }
+            catch (Exception e) 
+            {
+                return RedirectToAction("GeneralError", "Movie");
+            }
+
             OmdbSearchResult searchResultObject = JsonSerializer.Deserialize<OmdbSearchResult>(response);
+            if (searchResultObject.Response == "False")
+            {
+                return RedirectToAction("MovieNotFound", "Movie");
+            }
             model.SearchResult = searchResultObject.Search;
             model.Totals = searchResultObject.totalResults;
             return View(model);
@@ -79,6 +93,11 @@ namespace omdbapp.Controllers
         }
 
         public IActionResult MovieNotFound()
+        {
+            return View();
+        }
+
+        public IActionResult GeneralError()
         {
             return View();
         }

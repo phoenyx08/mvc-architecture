@@ -1,6 +1,6 @@
-console.log("paginator attached");
+//console.log("paginator attached");
 $(document).ready(function(){
-    console.log("Inside document.ready");
+    //console.log("Inside document.ready");
     var pagesCount = Math.floor(state.totalFound/10);
     var ajaxSender = () => {
         $.ajax({
@@ -11,7 +11,7 @@ $(document).ready(function(){
                 //console.log(result);
                 var htmlString = "";
                 result.result.search.map(entry => {
-                    console.log(entry);
+                    //console.log(entry);
                     if (entry.poster == "N/A") {
                         entry.poster = "/img/not-available.png"; 
                     }
@@ -27,11 +27,11 @@ $(document).ready(function(){
             }
         })
     }
-    console.log(state);
-    console.log(pagesCount);
+    //console.log(state);
+    //console.log(pagesCount);
 
     $("#pager-previous").click(function(){
-        console.log("Pager previous clicked state.currentPage was " + state.currentPage);
+        //console.log("Pager previous clicked state.currentPage was " + state.currentPage);
 
         if (state.currentPage == 2) {
             state.currentPage = 1;
@@ -59,14 +59,14 @@ $(document).ready(function(){
             $("#pager-next").parent().removeClass("disabled");
         }
 
-        console.log("Pager one clicked. state.currentPage became " + state.currentPage);  
-        console.log(state.searchString + " - state.searchQuery");
+        //console.log("Pager one clicked. state.currentPage became " + state.currentPage);  
+        //console.log(state.searchString + " - state.searchQuery");
 
         ajaxSender();
     });
 
     $("#pager-one").click(function() {
-        console.log("Pager one clicked. state.currentPage was " + state.currentPage);
+        //console.log("Pager one clicked. state.currentPage was " + state.currentPage);
 
         if (state.currentPage == 2) {
             state.currentPage = 1;
@@ -94,13 +94,13 @@ $(document).ready(function(){
             $("#pager-next").parent().removeClass("disabled");
         }
 
-        console.log("Pager one clicked. state.currentPage became " + state.currentPage);
+        //console.log("Pager one clicked. state.currentPage became " + state.currentPage);
 
         ajaxSender();
     });
 
     $("#pager-two").click(function(){
-        console.log("Pager two clicked state.currentPage was " + state.currentPage);
+        //console.log("Pager two clicked state.currentPage was " + state.currentPage);
 
         if (state.currentPage == 1) {
             $(".pagination").children().removeClass("active");
@@ -119,14 +119,14 @@ $(document).ready(function(){
         $("#pager-two").text(state.currentPage);
         $("#pager-three").text(state.currentPage + 1);
         
-        console.log("Pager two clicked state.currentPage became " + state.currentPage);
+        //console.log("Pager two clicked state.currentPage became " + state.currentPage);
 
         ajaxSender();
     });
 
     $("#pager-three").click(function(){
-        console.log("Pager three clicked. state.currentPage was " + state.currentPage);
-        console.log("Pager tree clicked");
+        //console.log("Pager three clicked. state.currentPage was " + state.currentPage);
+        //console.log("Pager tree clicked");
         
         if (state.currentPage == pagesCount - 1) {
             state.currentPage = pagesCount;
@@ -154,13 +154,13 @@ $(document).ready(function(){
             $("#pager-previous").parent().removeClass("disabled");
         }
         
-        console.log("Pager three clicked. state.currentPage became " + state.currentPage);
+        //console.log("Pager three clicked. state.currentPage became " + state.currentPage);
 
         ajaxSender();
     });
 
     $("#pager-next").click(function(){
-        console.log("Pager next clicked state.currentState = " + state.currentPage);
+        //console.log("Pager next clicked state.currentState = " + state.currentPage);
         if (state.currentPage == pagesCount - 1) {
             state.currentPage = pagesCount;
             $(".pagination").children().removeClass("active");
@@ -187,7 +187,7 @@ $(document).ready(function(){
             $("#pager-previous").parent().removeClass("disabled");
         }
         
-        console.log("Pager next clicked. state.currentPage became " + state.currentPage);
+        //console.log("Pager next clicked. state.currentPage became " + state.currentPage);
 
         ajaxSender();
     });
